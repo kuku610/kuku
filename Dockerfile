@@ -1,21 +1,20 @@
-FROM node:14-alpine3.12
+# Step 1: Use an official Node.js runtime as a base image
+FROM node:18
 
-# Create app directory
-WORKDIR /usr/src/app
+# Step 2: Set the working directory inside the container
+WORKDIR /app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-# copying packages first helps take advantage of docker layers
+# Step 3: Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
+# Step 4: Install the app dependencies
 RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
 
-# Bundle app source
+# Step 5: Copy the rest of the app's source code to the working directory
 COPY . .
 
+# Step 6: Expose the port your app will run on
 EXPOSE 8080
 
-CMD [ "npm", "run", "start" ]
+# Step 7: Define the command to run the app
+CMD ["npm", "start"]
